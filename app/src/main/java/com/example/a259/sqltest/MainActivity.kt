@@ -14,11 +14,15 @@ class MainActivity : AppCompatActivity() {
    }
 
     fun saveButtonClicked(view: View) {
-        if (nameEditText.text.toString().length > 0 &&
-                lastNameEditText.text.toString().length > 0 &&
-                phoneEditText.text.toString().length > 0){
-            var contact = Contact(nameEditText.text.toString(), lastNameEditText.text.toString(),
-                    phoneEditText.text.toString().toInt())
+        var firstName = nameEditText.text.toString()
+        var lastName = lastNameEditText.text.toString()
+        var phoneNumber = phoneEditText.text.toString()
+
+        if (firstName.length > 0 &&
+                lastName.length > 0 &&
+                phoneNumber.length > 0){
+            var contact = Contact(firstName, lastName,
+                    phoneNumber.toInt())
             var db = DatabaseHandler(this)
             db.inssrtData(contact)
         }else{
