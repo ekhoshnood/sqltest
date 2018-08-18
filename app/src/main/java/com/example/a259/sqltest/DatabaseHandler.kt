@@ -45,7 +45,7 @@ class DatabaseHandler (var context: Context) : SQLiteOpenHelper(context, DATABAS
     fun readData () : MutableList<Contact>{
         var list : MutableList<Contact> = ArrayList()
         val db = this.readableDatabase
-        val query = "Select * from " + TABLE_NAME
+        val query = "Select * from $TABLE_NAME"
         val result = db.rawQuery(query, null)
         if (result.moveToFirst()){
             do {
@@ -72,7 +72,7 @@ class DatabaseHandler (var context: Context) : SQLiteOpenHelper(context, DATABAS
             do {
                 var cv = ContentValues()
                 cv.put(COL_PHONENUMBER, result.getInt(result.getColumnIndex(COL_PHONENUMBER))+100)
-                db.update(TABLE_NAME, cv, COL_ID + " =? AND " + COL_NAME + " =? AND " + COL_LASTNAME + " =?",
+                db.update(TABLE_NAME, cv, "$COL_ID =? AND $COL_NAME =? AND $COL_LASTNAME =?",
                         arrayOf(result.getString(result.getColumnIndex(COL_ID)),
                                 result.getString(result.getColumnIndex(COL_NAME)),
                                 result.getString(result.getColumnIndex(COL_LASTNAME))))
@@ -84,7 +84,11 @@ class DatabaseHandler (var context: Context) : SQLiteOpenHelper(context, DATABAS
 
     fun deleteData (){
         val db = writableDatabase
-        db.delete(TABLE_NAME, "$COL_ID=?", arrayOf(4.toString()))
+//        Delete all table data
+        db.delete(TABLE_NAME, null, null)
+
+//        This is used to delete a specific id of table
+//        db.delete(TABLE_NAME, "$COL_ID=?", arrayOf(4.toString()))
         db.close()
     }
 
